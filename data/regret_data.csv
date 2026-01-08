@@ -1,0 +1,7 @@
+decision_type,external_pressure,past_regret_experience,emotional_state,decision_urgency,regret_level
+Career,High,Yes,Stressed,High,High
+Finance,Low,No,Calm,Low,Low
+Personal,Medium,Yes,Anxious,High,Medium
+Career,Medium,No,Calm,Medium,Low
+Finance,High,Yes,Stressed,High,High
+Personal,Low,No,Happy,Low,Low
