@@ -6,8 +6,14 @@ import os
 # -------------------
 # Paths
 # -------------------
-BASE_DIR = r"C:\regret_project"
+# OLD
+MODEL_PATH = r"C:\regret_project\model\regret_model.pkl"
+
+# NEW (works on Streamlit Cloud)
+import os
+BASE_DIR = os.path.dirname(__file__)
 MODEL_PATH = os.path.join(BASE_DIR, "model", "regret_model.pkl")
+
 
 # -------------------
 # Load trained model + encoders
