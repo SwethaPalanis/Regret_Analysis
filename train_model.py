@@ -39,5 +39,6 @@ model.fit(X, y)
 with open(MODEL_PATH, "wb") as f:
     pickle.dump((model, encoders), f)
 
+
 print("✅ Model trained and saved successfully")
 print("📁 Saved at:", MODEL_PATH)
