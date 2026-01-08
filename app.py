@@ -1,31 +1,17 @@
 import streamlit as st
 import pandas as pd
-import pickle
+import joblib
 import os
 
-# -------------------
 # Paths
-# -------------------
-# OLD
-MODEL_PATH = r"C:\regret_project\model\regret_model.pkl"
-
-# NEW (works on Streamlit Cloud)
-import os
 BASE_DIR = os.path.dirname(__file__)
 MODEL_PATH = os.path.join(BASE_DIR, "model", "regret_model.pkl")
 
+# Load model + encoders
+model, encoders = joblib.load(MODEL_PATH)
 
-# -------------------
-# Load trained model + encoders
-# -------------------
-with open(MODEL_PATH, "rb") as f:
-    model, encoders = pickle.load(f)
-
-# -------------------
 # Page Layout
-# -------------------
 st.set_page_config(page_title="Regret Analysis System", layout="centered")
-
 st.title("😕 Regret Analysis System")
 st.markdown(
     "Predict your regret level based on your recent decision.\n\n"
@@ -33,9 +19,7 @@ st.markdown(
 )
 st.write("---")
 
-# -------------------
 # User Inputs
-# -------------------
 st.header("Decision Details")
 user_input = {}
 for col, le in encoders.items():
@@ -44,9 +28,7 @@ for col, le in encoders.items():
         le.classes_
     )
 
-# -------------------
 # Predict Button
-# -------------------
 if st.button("🔮 Predict Regret"):
     # Encode input
     input_encoded = {col: encoders[col].transform([val])[0] for col, val in user_input.items()}
@@ -55,18 +37,11 @@ if st.button("🔮 Predict Regret"):
     # Predict
     result = model.predict(input_df)[0]
     
-    # -------------------
     # Color-coded output
-    # -------------------
-    color = {
-        "High": "red",
-        "Medium": "orange",
-        "Low": "green"
-    }.get(result, "black")
-    
+    color = {"High": "red", "Medium": "orange", "Low": "green"}.get(result, "black")
     st.markdown(f"### Predicted Regret Level: <span style='color:{color}'>{result}</span>", unsafe_allow_html=True)
     
-    # Optional: small advice
+    # Advice message
     advice = {
         "High": "⚠️ Consider reflecting carefully before making similar decisions in the future.",
         "Medium": "🤔 Some caution is advised.",
